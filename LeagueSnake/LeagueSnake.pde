@@ -26,7 +26,8 @@ Segment(int x, int y) {
 Segment head;
 int foodX;
 int foodY;
-
+int direction = UP;
+int piece = 0;
 
 
 
@@ -58,19 +59,22 @@ void dropFood() {
 void draw() {
   background(#000000);
   drawFood();
+  move();
   drawSnake();
+  eat();
 }
 
 void drawFood() {
   //Draw the food
-  fill();
-  rect(10,10,foodX,foodY);
+  fill(#1BF532);
+  rect(foodX,foodY,10,10);
 
 }
 
 void drawSnake() {
   //Draw the head of the snake followed by its tail
-  
+  fill(#F51B1B);
+  rect(head.x,head.y,10,10);
 }
 
 
@@ -104,28 +108,36 @@ void checkTailCollision() {
 
 void keyPressed() {
   //Set the direction of the snake according to the arrow keys pressed
-  
+  if (key == CODED) {
+    if (keyCode == UP) {
+      head.y-=10;
+    } else if (keyCode == DOWN) {
+      head.y+=10;
+    } else if (keyCode == LEFT) {
+       head.x-=10;
+    } else if (keyCode == RIGHT) {
+       head.x+=10;
+    }
+  } 
 }
 
 void move() {
   //Change the location of the Snake head based on the direction it is moving.
-  
-    /*
   switch(direction) {
   case UP:
-    // move head up here 
+    head.y-=10;
     break;
   case DOWN:
-    // move head down here 
+    head.y+=10; 
     break;
   case LEFT:
-   // figure it out 
+    head.x-=10;
     break;
   case RIGHT:
-    // mystery code goes here 
+    head.x+=10;
     break;
   }
-  */
+  checkBoundaries();
 }
 
 void checkBoundaries() {
@@ -137,5 +149,7 @@ void checkBoundaries() {
 
 void eat() {
   //When the snake eats the food, its tail should grow and more food appear
-
+  if(foodX == head.x && foodY == head.y){
+    piece += 1;
+  }
 }
